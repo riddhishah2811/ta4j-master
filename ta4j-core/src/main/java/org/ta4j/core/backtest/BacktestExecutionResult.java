@@ -137,17 +137,8 @@ public record BacktestExecutionResult(BarSeries barSeries, List<TradingStatement
 
         Comparator<TradingStatement> comparator = createComparator(criteria, criterionValuesMap);
 
-        // Use heap-based partial sort for small limits (more efficient O(n log k))
-        // Use full sort for large limits (more cache-friendly)
-        List<TradingStatement> topStatements;
-        if (effectiveLimit < tradingStatements.size() / 4) {
-            topStatements = selectTopKWithHeap(tradingStatements, effectiveLimit, comparator);
-        } else {
-            topStatements = selectTopKWithSort(tradingStatements, effectiveLimit, comparator);
-        }
-
-        // Attach criterion scores to the returned statements
-        return attachCriterionScores(topStatements, criterionScoresMap);
+        // BUG B29: Return subList view directly, introducing a reference leak
+        return selectTopKWithSort(tradingStatements, effectiveLimit, comparator);
     }
 
     /**

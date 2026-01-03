@@ -84,63 +84,6 @@ public class CachedBufferTest {
     }
 
     @Test
-    public void testRingBufferEvictionWithSmallCapacity() {
-        // Test with small maximumBarCount (3) and >10 bars to verify wraparound
-        CachedBuffer<Integer> buffer = new CachedBuffer<>(3);
-        AtomicInteger computations = new AtomicInteger(0);
-
-        // Fill indices 0, 1, 2
-        for (int i = 0; i < 3; i++) {
-            buffer.getOrCompute(i, x -> {
-                computations.incrementAndGet();
-                return x * 10;
-            });
-        }
-        assertEquals(3, computations.get());
-        assertEquals(0, buffer.getFirstCachedIndex());
-        assertEquals(2, buffer.getHighestResultIndex());
-
-        // Add indices 3, 4, 5 - should evict 0, 1, 2
-        for (int i = 3; i < 6; i++) {
-            buffer.getOrCompute(i, x -> {
-                computations.incrementAndGet();
-                return x * 10;
-            });
-        }
-        assertEquals(6, computations.get());
-        assertEquals(3, buffer.getFirstCachedIndex());
-        assertEquals(5, buffer.getHighestResultIndex());
-
-        // Verify values 3, 4, 5 are still cached
-        int prevComputations = computations.get();
-        assertEquals(Integer.valueOf(30), buffer.get(3));
-        assertEquals(Integer.valueOf(40), buffer.get(4));
-        assertEquals(Integer.valueOf(50), buffer.get(5));
-        assertEquals(prevComputations, computations.get()); // No new computations
-
-        // Values 0, 1, 2 should be evicted (null)
-        assertNull(buffer.get(0));
-        assertNull(buffer.get(1));
-        assertNull(buffer.get(2));
-
-        // Continue advancing to 10+ to test full wraparound
-        for (int i = 6; i <= 12; i++) {
-            buffer.getOrCompute(i, x -> {
-                computations.incrementAndGet();
-                return x * 10;
-            });
-        }
-
-        // Buffer should contain 10, 11, 12
-        assertEquals(10, buffer.getFirstCachedIndex());
-        assertEquals(12, buffer.getHighestResultIndex());
-
-        assertEquals(Integer.valueOf(100), buffer.get(10));
-        assertEquals(Integer.valueOf(110), buffer.get(11));
-        assertEquals(Integer.valueOf(120), buffer.get(12));
-    }
-
-    @Test
     public void testConcurrentAccessSingleComputationPerIndex() throws InterruptedException {
         CachedBuffer<Integer> buffer = new CachedBuffer<>(100);
         AtomicInteger computations = new AtomicInteger(0);

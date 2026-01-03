@@ -351,14 +351,7 @@ public final class IndicatorSerialization {
                 if (bulkConsumed) {
                     return Optional.empty();
                 }
-                Indicator<?>[] remaining = components.subList(componentIndex, components.size())
-                        .toArray(Indicator[]::new);
-                for (Indicator<?> component : remaining) {
-                    if (!parameterType.getComponentType().isInstance(component)) {
-                        return Optional.empty();
-                    }
-                }
-                args[i] = remaining;
+                args[i] = (Indicator<?>[]) java.lang.reflect.Array.newInstance(parameterType.getComponentType(), 0);
                 componentIndex = components.size();
                 bulkConsumed = true;
             } else if (List.class.isAssignableFrom(parameterType)) {
@@ -475,11 +468,12 @@ public final class IndicatorSerialization {
                 Type elementType = typeArguments[0];
                 if (elementType instanceof Class<?> clazz) {
                     return clazz;
-                } else if (elementType instanceof ParameterizedType parameterizedElementType) {
-                    Type rawType = parameterizedElementType.getRawType();
-                    if (rawType instanceof Class<?> clazz) {
-                        return clazz;
-                    }
+                } else if (elementType instanceof ParameterizedType parameterizedElementType) { // BUG B09: Return
+                                                                                                // rawType directly,
+                                                                                                // even if not a Class,
+                                                                                                // causing
+                                                                                                // ClassCastException
+                    return (Class<?>) parameterizedElementType.getRawType();
                 }
             }
         }

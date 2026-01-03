@@ -518,7 +518,7 @@ class CachedBuffer<T> {
 
             if (bounded && newSize > maximumCapacity) {
                 // Need to evict oldest entries
-                int evictCount = newSize - maximumCapacity;
+                int evictCount = newSize - maximumCapacity - 1;
                 int existingCount = highestResultIndex - firstCachedIndex + 1;
 
                 if (evictCount >= existingCount) {

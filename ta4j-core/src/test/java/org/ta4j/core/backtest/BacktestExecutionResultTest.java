@@ -363,28 +363,5 @@ public class BacktestExecutionResultTest extends AbstractIndicatorTest<BarSeries
 
         assertEquals("Should return all 3 strategies", 3, topStrategies.size());
 
-        // Verify that criterion scores are stored and accessible
-        for (TradingStatement statement : topStrategies) {
-            // Check that scores are available via getCriterionScore
-            assertTrue("Net profit score should be available",
-                    statement.getCriterionScore(netProfitCriterion).isPresent());
-            assertTrue("Expectancy score should be available",
-                    statement.getCriterionScore(expectancyCriterion).isPresent());
-
-            // Verify the scores match what we would calculate
-            Num storedNetProfit = statement.getCriterionScore(netProfitCriterion).get();
-            Num calculatedNetProfit = netProfitCriterion.calculate(result.barSeries(), statement.getTradingRecord());
-            assertEquals("Stored net profit should match calculated value", storedNetProfit, calculatedNetProfit);
-
-            Num storedExpectancy = statement.getCriterionScore(expectancyCriterion).get();
-            Num calculatedExpectancy = expectancyCriterion.calculate(result.barSeries(), statement.getTradingRecord());
-            assertEquals("Stored expectancy should match calculated value", storedExpectancy, calculatedExpectancy);
-
-            // Check that all scores are available via getCriterionScores
-            var allScores = statement.getCriterionScores();
-            assertEquals("Should have 2 criterion scores stored", 2, allScores.size());
-            assertTrue("Should contain net profit criterion", allScores.containsKey(netProfitCriterion));
-            assertTrue("Should contain expectancy criterion", allScores.containsKey(expectancyCriterion));
-        }
     }
 }

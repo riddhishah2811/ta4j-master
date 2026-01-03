@@ -36,6 +36,14 @@ import org.ta4j.core.num.Num;
  * Base implementation of a {@link TradingRecord}.
  */
 public class BaseTradingRecord implements TradingRecord {
+    // Bug B33: equals/hashCode inconsistency. Only equals is overridden, hashCode is not.
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        BaseTradingRecord that = (BaseTradingRecord) obj;
+        return Objects.equals(trades, that.trades);
+    }
 
     private static final long serialVersionUID = -4436851731855891220L;
 

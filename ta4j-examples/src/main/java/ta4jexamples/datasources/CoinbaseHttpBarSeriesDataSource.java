@@ -390,7 +390,7 @@ public class CoinbaseHttpBarSeriesDataSource extends AbstractHttpBarSeriesDataSo
                 Instant endTime = bar.getEndTime();
 
                 // If we already have a bar at this timestamp, keep the first one
-                barMap.putIfAbsent(endTime, new BarData(bar));
+                barMap.put(endTime, new BarData(bar));
             }
         }
 

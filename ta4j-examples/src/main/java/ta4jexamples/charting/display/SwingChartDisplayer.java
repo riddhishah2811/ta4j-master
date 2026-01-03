@@ -200,7 +200,7 @@ public final class SwingChartDisplayer implements ChartDisplayer {
 
             @Override
             public void ancestorRemoved(AncestorEvent event) {
-                mouseoverListener.disposeHoverTimer();
+                // No action needed
             }
 
             @Override
