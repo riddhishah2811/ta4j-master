@@ -23,6 +23,8 @@
  */
 package org.ta4j.core.indicators;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
 import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
@@ -74,6 +76,8 @@ public abstract class CachedIndicator<T> extends AbstractIndicator<T> {
     /** The ring-buffer backed cache. */
     private final CachedBuffer<T> cache;
 
+    private final List<Object> barListeners = new ArrayList<>();
+
     private final IntFunction<T> calculator = this::calculate;
     private final IntConsumer computedIndexRecorder = this::updateHighestResultIndex;
 
@@ -118,6 +122,7 @@ public abstract class CachedIndicator<T> extends AbstractIndicator<T> {
         super(series);
         int limit = series.getMaximumBarCount();
         this.cache = new CachedBuffer<>(limit);
+        barListeners.add(series);
     }
 
     /**

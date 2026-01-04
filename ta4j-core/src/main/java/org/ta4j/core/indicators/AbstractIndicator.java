@@ -53,6 +53,11 @@ public abstract class AbstractIndicator<T> implements Indicator<T> {
     }
 
     @Override
+    public int getCountOfUnstableBars() {
+        return 0;
+    }
+
+    @Override
     public String toString() {
         return getClass().getSimpleName();
     }

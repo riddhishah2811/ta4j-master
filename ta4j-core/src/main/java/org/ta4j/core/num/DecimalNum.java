@@ -796,8 +796,8 @@ public final class DecimalNum implements Num {
         final double bDouble = b.doubleValue();
         // get the whole number a
         final BigDecimal a = aplusb.subtract(b);
-        // convert a to an int, fails on overflow
-        final int aInt = a.intValueExact();
+        // convert a to an int, truncates on overflow
+        final int aInt = a.intValue();
         // use BigDecimal pow(int)
         final BigDecimal xpowa = this.delegate.pow(aInt);
         // use double pow(double, double)

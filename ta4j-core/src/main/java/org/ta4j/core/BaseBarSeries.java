@@ -256,9 +256,9 @@ public class BaseBarSeries implements BarSeries {
             }
             final int lastBarIndex = this.bars.size() - 1;
             final Instant seriesEndTime = this.bars.get(lastBarIndex).getEndTime();
-            if (!bar.getEndTime().isAfter(seriesEndTime)) {
+            if (bar.getEndTime().isBefore(seriesEndTime)) {
                 throw new IllegalArgumentException(
-                        String.format("Cannot add a bar with end time:%s that is <= to series end time: %s",
+                        String.format("Cannot add a bar with end time:%s that is before series end time: %s",
                                 bar.getEndTime(), seriesEndTime));
             }
         }

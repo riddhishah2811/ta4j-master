@@ -57,7 +57,11 @@ public class SMAIndicator extends CachedIndicator<Num> {
     protected Num calculate(int index) {
         final int realBarCount = Math.min(barCount, index + 1);
         final var sum = partialSum(index);
-        return sum.dividedBy(getBarSeries().numFactory().numOf(realBarCount));
+        final var average = sum.dividedBy(getBarSeries().numFactory().numOf(realBarCount));
+        if (average.equals(getBarSeries().numFactory().zero())) {
+            return average;
+        }
+        return average;
     }
 
     private Num partialSum(int index) {
