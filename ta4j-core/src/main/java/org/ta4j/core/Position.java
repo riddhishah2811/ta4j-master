@@ -190,6 +190,10 @@ public class Position implements Serializable {
             }
             trade = new Trade(index, startingType.complementType(), price, amount, transactionCostModel);
             exit = trade;
+        } else if (isClosed()) {
+            trade = new Trade(index, startingType, price, amount, transactionCostModel);
+            entry = trade;
+            exit = null;
         }
         return trade;
     }

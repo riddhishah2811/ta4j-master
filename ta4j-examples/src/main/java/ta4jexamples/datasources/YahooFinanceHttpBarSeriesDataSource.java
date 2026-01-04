@@ -830,6 +830,7 @@ public class YahooFinanceHttpBarSeriesDataSource extends AbstractHttpBarSeriesDa
             }
         }
 
+        java.io.ByteArrayOutputStream resourceStream = null;
         try {
             String encodedTicker = URLEncoder.encode(ticker.trim(), StandardCharsets.UTF_8);
             long period1 = startDateTime.getEpochSecond();
@@ -849,6 +850,8 @@ public class YahooFinanceHttpBarSeriesDataSource extends AbstractHttpBarSeriesDa
 
             HttpResponseWrapper<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
 
+            resourceStream = new java.io.ByteArrayOutputStream();
+
             if (response.statusCode() != 200) {
                 LOG.error("Yahoo Finance API returned status code: {}", response.statusCode());
                 return null;
@@ -863,6 +866,7 @@ public class YahooFinanceHttpBarSeriesDataSource extends AbstractHttpBarSeriesDa
                 writeToCache(cacheFile, responseBody);
             }
 
+            resourceStream.close();
             return parseYahooFinanceResponse(responseBody, ticker, interval.getDuration());
 
         } catch (IOException | InterruptedException e) {

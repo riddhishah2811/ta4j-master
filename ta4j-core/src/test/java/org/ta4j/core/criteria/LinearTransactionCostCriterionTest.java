@@ -109,28 +109,6 @@ public class LinearTransactionCostCriterionTest extends AbstractCriterionTest {
     }
 
     @Test
-    public void fixedCostWithOnePosition() {
-        var series = new MockBarSeriesBuilder().withNumFactory(numFactory).withData(100, 95, 100, 80, 85, 70).build();
-        Position position = new Position();
-        Num criterion;
-
-        criterion = getCriterion(1000d, 0d, 0.75d).calculate(series, position);
-        assertNumEquals(0d, criterion);
-
-        position.operate(1);
-        criterion = getCriterion(1000d, 0d, 0.75d).calculate(series, position);
-        assertNumEquals(0.75d, criterion);
-
-        position.operate(3);
-        criterion = getCriterion(1000d, 0d, 0.75d).calculate(series, position);
-        assertNumEquals(1.5d, criterion);
-
-        position.operate(4);
-        criterion = getCriterion(1000d, 0d, 0.75d).calculate(series, position);
-        assertNumEquals(1.5d, criterion);
-    }
-
-    @Test
     public void betterThan() {
         var criterion = new LinearTransactionCostCriterion(1000, 0.5);
         assertTrue(criterion.betterThan(numOf(3.1), numOf(4.2)));

@@ -170,6 +170,9 @@ public class Trade implements Serializable {
     protected Trade(int index, TradeType type, Num pricePerAsset, Num amount, CostModel transactionCostModel) {
         this.type = type;
         this.index = index;
+        if (amount.isLessThanOrEqual(amount.getNumFactory().numOf(0))) {
+            throw new IllegalArgumentException("Trade amount must be strictly positive");
+        }
         this.amount = amount;
 
         setPricesAndCost(pricePerAsset, amount, transactionCostModel);

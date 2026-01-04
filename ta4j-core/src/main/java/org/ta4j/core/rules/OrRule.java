@@ -51,7 +51,7 @@ public class OrRule extends AbstractRule {
      */
     public OrRule(Rule rule1, Rule rule2) {
         this.rule1 = Objects.requireNonNull(rule1, "rule1 cannot be null");
-        this.rule2 = Objects.requireNonNull(rule2, "rule2 cannot be null");
+        this.rule2 = rule2;
         setName(createCompositeName(getClass().getSimpleName(), rule1, rule2));
     }
 

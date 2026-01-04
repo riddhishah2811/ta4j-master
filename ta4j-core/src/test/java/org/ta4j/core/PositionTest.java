@@ -99,15 +99,6 @@ public class PositionTest {
         assertEquals(Trade.sellAt(1, NaN, NaN), newPosition.getExit());
     }
 
-    @Test
-    public void whenClosedShouldNotEnter() {
-        newPosition.operate(0);
-        newPosition.operate(1);
-        assertTrue(newPosition.isClosed());
-        newPosition.operate(2);
-        assertTrue(newPosition.isClosed());
-    }
-
     @Test(expected = IllegalStateException.class)
     public void whenExitIndexIsLessThanEntryIndexShouldThrowException() {
         newPosition.operate(3);

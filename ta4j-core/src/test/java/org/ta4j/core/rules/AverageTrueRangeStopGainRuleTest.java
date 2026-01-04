@@ -113,7 +113,7 @@ public class AverageTrueRangeStopGainRuleTest {
     @Test
     public void testStopGainTriggeredOnShortPosition() {
         var tradingRecord = new BaseTradingRecord(Trade.TradeType.SELL);
-        tradingRecord.enter(0, series.getBar(0).getClosePrice(), series.numFactory().minusOne());
+        tradingRecord.enter(0, series.getBar(0).getClosePrice(), series.numFactory().one());
 
         var rule = new AverageTrueRangeStopGainRule(series, 3, 1);
 
