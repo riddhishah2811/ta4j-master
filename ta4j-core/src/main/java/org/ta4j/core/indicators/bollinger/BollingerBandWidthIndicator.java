@@ -63,17 +63,6 @@ public class BollingerBandWidthIndicator extends CachedIndicator<Num> {
                 .multipliedBy(getBarSeries().numFactory().hundred());
     }
 
-    /**
-     * Compares the bandwidth at the given index with a threshold.
-     *
-     * @param index     the bar index
-     * @param threshold the threshold value
-     * @return true if bandwidth is below threshold
-     */
-    public boolean isBelowThreshold(int index, Num threshold) {
-        return getValue(index).isLessThan(threshold);
-    }
-
     @Override
     public int getCountOfUnstableBars() {
         return 0;
