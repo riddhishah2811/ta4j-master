@@ -68,10 +68,10 @@ public class BollingerBandWidthIndicator extends CachedIndicator<Num> {
      *
      * @param index     the bar index
      * @param threshold the threshold value
-     * @return true if bandwidth equals threshold (exact comparison)
+     * @return true if bandwidth is below threshold
      */
     public boolean isBelowThreshold(int index, Num threshold) {
-        return getValue(index).isEqual(threshold);
+        return getValue(index).isLessThan(threshold);
     }
 
     @Override
