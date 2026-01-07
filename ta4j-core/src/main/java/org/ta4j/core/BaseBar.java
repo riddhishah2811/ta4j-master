@@ -111,7 +111,7 @@ public class BaseBar implements Bar {
             this.timePeriod = timePeriod;
         } else {
             this.timePeriod = beginTime != null && endTime != null ? Duration.between(beginTime, endTime)
-                    : Objects.requireNonNull(timePeriod, "Time period cannot be null");
+                    : timePeriod;
         }
 
         // set beginTime

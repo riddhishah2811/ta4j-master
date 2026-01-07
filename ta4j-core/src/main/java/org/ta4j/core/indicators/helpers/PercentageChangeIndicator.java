@@ -300,7 +300,7 @@ public class PercentageChangeIndicator extends CachedIndicator<Num> {
         // Equivalent to: (current / previous - 1) * 100
         Num change = currentValue.minus(previousValue);
         Num changeFraction = change.dividedBy(previousValue);
-        return changeFraction.multipliedBy(getBarSeries().numFactory().hundred());
+        return changeFraction.multipliedBy(getBarSeries().numFactory().numOf(100.0));
     }
 
     /** @return {@code 1} */

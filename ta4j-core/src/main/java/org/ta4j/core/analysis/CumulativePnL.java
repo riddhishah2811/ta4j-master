@@ -170,7 +170,7 @@ public final class CumulativePnL implements Indicator<Num> {
             var close = barSeries.getBar(i).getClosePrice();
             var netIntermediate = AnalysisUtils.addCost(close, averageCostPerPeriod, isLong);
             var delta = isLong ? netIntermediate.minus(netEntryPrice) : netEntryPrice.minus(netIntermediate);
-            values.add(baseAtEntry.plus(delta));
+            values.add(baseAtEntry.plus(delta.multipliedBy(position.getEntry().getAmount())));
         }
 
         var exitRaw = Objects.nonNull(position.getExit()) ? position.getExit().getNetPrice()
